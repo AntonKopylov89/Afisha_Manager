@@ -4,19 +4,21 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class AfishaManagerTest {
-    FilmName first = new FilmName("Джентельмены");
-    FilmName second = new FilmName("Начало");
-    FilmName third = new FilmName("Бладшот");
-    FilmName fourth = new FilmName("Вперед");
-    FilmName fifth = new FilmName("Отель 'Белград'");
-    FilmName sixth = new FilmName("Человек - невидимка");
-    FilmName seventh = new FilmName("Тролли.Мировой тур");
-    FilmName eighth = new FilmName("Номер один");
-    FilmName ninth = new FilmName("Мстители");
-    FilmName tenth = new FilmName("Не время умирать");
-    FilmName eleventh = new FilmName("Интерстеллар");
+    FilmName first = new FilmName("Джентельмены", 15);
+    FilmName second = new FilmName("Начало", 28);
+    FilmName third = new FilmName("Бладшот", 110);
+    FilmName fourth = new FilmName("Вперед", 201);
+    FilmName fifth = new FilmName("Отель 'Белград'", 140);
+    FilmName sixth = new FilmName("Человек - невидимка", 25);
+    FilmName seventh = new FilmName("Тролли.Мировой тур", 81);
+    FilmName eighth = new FilmName("Номер один", 73);
+    FilmName ninth = new FilmName("Мстители", 96);
+    FilmName tenth = new FilmName("Не время умирать", 156);
+    FilmName eleventh = new FilmName("Интерстеллар", 177);
 
-    AfishaManager manager = new AfishaManager();
+    FilmRepository repo = new FilmRepository();
+    AfishaManager manager = new AfishaManager(repo);
+
 
     @Test
     public void shouldAddFilms(){
@@ -30,6 +32,58 @@ public class AfishaManagerTest {
 
         FilmName[] actual = manager.findAll();
         FilmName[] expected = { first, second, third, fourth,fifth, sixth };
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindFilmById(){
+
+        manager.save(first);
+        manager.save(second);
+        manager.save(third);
+        manager.save(fourth);
+        manager.save(fifth);
+        manager.save(sixth);
+
+        FilmName[] actual = manager.findById(110);
+        FilmName[] expected = { third };
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldRemoveFilmById(){
+
+        manager.save(first);
+        manager.save(second);
+        manager.save(third);
+        manager.save(fourth);
+        manager.save(fifth);
+        manager.save(sixth);
+
+        manager.removeById(15);
+
+        FilmName[] actual = manager.findAll();
+        FilmName[] expected = { second, third, fourth,fifth, sixth };
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldRemoveAllFilms(){
+
+        manager.save(first);
+        manager.save(second);
+        manager.save(third);
+        manager.save(fourth);
+        manager.save(fifth);
+        manager.save(sixth);
+
+        manager.removeAll();
+
+        FilmName[] actual = manager.findAll();
+        FilmName[] expected = { null, null, null, null, null, null };
 
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -81,24 +135,25 @@ public class AfishaManagerTest {
     @Test
     public void shouldShow11Films(){
 
-        AfishaManager manager2 = new AfishaManager(11);
+        FilmRepository repo = new FilmRepository(11);
+        AfishaManager manager = new AfishaManager(repo);
 
-        manager2.save(first);
-        manager2.save(second);
-        manager2.save(third);
-        manager2.save(fourth);
-        manager2.save(fifth);
-        manager2.save(sixth);
-        manager2.save(seventh);
-        manager2.save(eighth);
-        manager2.save(ninth);
-        manager2.save(tenth);
-        manager2.save(eleventh);
+        manager.save(first);
+        manager.save(second);
+        manager.save(third);
+        manager.save(fourth);
+        manager.save(fifth);
+        manager.save(sixth);
+        manager.save(seventh);
+        manager.save(eighth);
+        manager.save(ninth);
+        manager.save(tenth);
+        manager.save(eleventh);
 
-        manager2.findAll();
+        manager.findAll();
 
         FilmName[] expected = { eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first };
-        FilmName[] actual = manager2.findLast();
+        FilmName[] actual = manager.findLast();
 
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -106,26 +161,26 @@ public class AfishaManagerTest {
     @Test
     public void shouldShow5Films(){
 
-        AfishaManager manager3 = new AfishaManager(5);
+        FilmRepository repo = new FilmRepository(5);
+        AfishaManager manager = new AfishaManager(repo);
 
-        manager3.save(first);
-        manager3.save(second);
-        manager3.save(third);
-        manager3.save(fourth);
-        manager3.save(fifth);
-        manager3.save(sixth);
-        manager3.save(seventh);
-        manager3.save(eighth);
-        manager3.save(ninth);
-        manager3.save(tenth);
-        manager3.save(eleventh);
+        manager.save(first);
+        manager.save(second);
+        manager.save(third);
+        manager.save(fourth);
+        manager.save(fifth);
+        manager.save(sixth);
+        manager.save(seventh);
+        manager.save(eighth);
+        manager.save(ninth);
+        manager.save(tenth);
+        manager.save(eleventh);
 
-        manager3.findAll();
+        manager.findAll();
 
         FilmName[] expected = { eleventh, tenth, ninth, eighth, seventh};
-        FilmName[] actual = manager3.findLast();
+        FilmName[] actual = manager.findLast();
 
         Assertions.assertArrayEquals(expected, actual);
     }
-
 }

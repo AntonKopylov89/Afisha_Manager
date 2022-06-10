@@ -16,29 +16,41 @@ public class AfishaManager {
     public AfishaManager(int filmLimit) {
         this.filmLimit = filmLimit;
     }
+    private FilmRepository repository;
 
-    private FilmName[] films = new FilmName[0];
+    public AfishaManager(FilmRepository repository) {
+        this.repository = repository;
+    }
 
-    public void save(FilmName newFilm) {
-        int length = films.length + 1;
-        FilmName[] tmp = new FilmName[length];
-        System.arraycopy(films, 0, tmp, 0, films.length);
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = newFilm;
-        films = tmp;
+    public void save(FilmName film) {
+        repository.save(film);
+    }
+
+    public void removeAll() {
+        repository.removeAll();
     }
 
     public FilmName[] findAll() {
-        return films;
+       FilmName[] film = repository.findAll();
+       return film;
+    }
+
+    public FilmName[] findById(int id) {
+        FilmName[] film = repository.findById(id);
+        return film;
+    }
+
+    public void removeById(int id) {
+        repository.removeById(id);
     }
 
     public FilmName[] findLast() {
-        FilmName[] items = findAll();
+        FilmName[] items = repository.findAll();
         int resultLength;
-        if (filmLimit > items.length) {
+        if (repository.getFilmLimit() > items.length) {
             resultLength = items.length;
         } else {
-            resultLength = filmLimit;
+            resultLength = repository.getFilmLimit();
         }
         FilmName[] result = new FilmName[resultLength];
         for (int i = 0; i < result.length; i++) {
